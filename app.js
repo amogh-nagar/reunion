@@ -9,11 +9,10 @@ const HttpError = require("./models/http-error");
 
 const app = express();
 
-
-const helmet=require('helmet')
-const compression=require('compression')
-app.use(helmet())
-app.use(compression())
+const helmet = require("helmet");
+const compression = require("compression");
+app.use(helmet());
+app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -27,7 +26,9 @@ app.use((req, res, next) => {
 
   next();
 });
-
+app.get("/", (req, res) => {
+  res.send("hello from server");
+});
 app.use("/api", routes);
 app.use("/api/post", postRoutes);
 app.use((req, res, next) => {
@@ -46,10 +47,9 @@ app.use((error, req, res, next) => {
 mongoose
   .connect(process.env.mongodb)
   .then(() => {
-    app.listen(process.env.PORT||5000, () => {
+    app.listen(process.env.PORT || 5000, () => {
       console.log("Server Connected!");
     });
-    
   })
   .catch((err) => {
     console.log(err);
